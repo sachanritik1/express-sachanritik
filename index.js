@@ -68,3 +68,16 @@ app.patch("/projects/:id", (req, res) => {
 		res.status(400).json({ error: "Invalid ID" })
 	}
 })
+
+app.post("/login", (req, res) => {
+	db.collection("users")
+		.findOne({ username: req.body.username, password: req.body.password })
+		.then((result) => {
+			if (result) {
+				res.status(200).json({ auth: true })
+			} else {
+				res.status(500).json({ auth: false })
+			}
+		})
+		.catch((err) => console.log(err))
+})
